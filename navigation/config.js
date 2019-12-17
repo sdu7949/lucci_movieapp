@@ -7,7 +7,7 @@ export const headerStyles = {
       borderBottomWidth: 0
     },
     headerTitleStyle: {
-      color: TINT_COLOR
+      color: TINT_COLOR,
     },
     headerTintColor: TINT_COLOR
   };
