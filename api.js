@@ -8,34 +8,30 @@ const api = axios.create({
     }
 });
 
-export const moviesApi={
-    nowPlaying : () => api.get("movie/now_playing"),
-    upcoming : () => api.get("movie/upcoming"),
-    popular: () => api.get("movie/popular"),
-    movieDetail: id => api.get(`movie/${id}`, {
-        params:{
-            append_to_response : "videos"
+export const movies = {
+    getMovie: id =>
+      api.get(`movie/${id}`, { params: { append_to_response: "videos" } }),
+    getPopular: () => api.get("movie/popular"),
+    getUpcoming: () => api.get("movie/upcoming"),
+    getNowPlaying: () => api.get("movie/now_playing"),
+    searchMovies: term =>
+      api.get("search/movie", {
+        params: {
+          query: encodeURIComponent(term)
         }
-    }),
-    search : (term) => api.get("search/movie", {
-        params:{
-            query : encodeURIComponent(term)
+      })
+  };
+  
+  export const tv = {
+    getShow: id =>
+      api.get(`tv/${id}`, { params: { append_to_response: "videos" } }),
+    getPopular: () => api.get("tv/popular"),
+    getTopRated: () => api.get("tv/top_rated"),
+    getAiringToday: () => api.get("tv/airing_today"),
+    searchTv: term =>
+      api.get("search/tv", {
+        params: {
+          query: encodeURIComponent(term)
         }
-    })
-};
-
-export const tvApi={
-    topRated : () => api.get("tv/top_rated"),
-    popular: () => api.get("tv/popular"),
-    airingToday : () => api.get("tv/airing_today"),
-    showDetail: (id) => api.get(`tv/${id}`, {   //영화마다 id가 있기 때문에 id를 받아서 해당 영화정보 받아옴
-        params : {
-            append_to_response : "videos"   //디테일 누르면 딸려 나오는 각종 정보들 뽑아주는 파라미터
-        }
-    }),
-    search : (term) => api.get("search/tv", {
-        params:{
-            query : encodeURIComponent(term)   //검색할때 스페이스바, 특수문자등 string으로 처리해주는 파라미터
-        }
-    })
-};
+      })
+  };

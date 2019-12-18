@@ -23,6 +23,8 @@ export default class extends React.Component {
        ({
         data : {results : popular}
       } = await movies.getPopular());
+
+
     }catch (error) {
       console.log(error);
       error = "Can't get Movies.";
