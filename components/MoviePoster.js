@@ -4,8 +4,8 @@ import styled from "styled-components";
 import makePhotoUrl from "../utils/makePhotoUrl";
 
 const Image = styled.Image`
-  width: 110px;
-  height: 160px;
+  width: 120px;
+  height: 190px;
   border-radius: 2.5px;
 `;
 

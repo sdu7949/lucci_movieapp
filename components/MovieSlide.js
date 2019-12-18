@@ -30,6 +30,9 @@ const Content = styled.View`
 const Column = styled.View`
   width: 60%;
   align-items: flex-start;
+  /* RN은 flex-direction 이 항상 column 임.
+  그래서 View 안에서 자유롭게 변경하고 싶은 태그가 있으면
+  align-items : flex-start; 라고 해주면 됨 */
 `;
 
 const Title = styled.Text`
