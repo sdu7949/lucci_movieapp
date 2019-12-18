@@ -26,7 +26,7 @@ export const movies = {
     getShow: id =>
       api.get(`tv/${id}`, { params: { append_to_response: "videos" } }),
     getPopular: () => api.get("tv/popular"),
-    getTopRated: () => api.get("tv/top_rated"),
+    getAiringThisWeek: () => api.get("tv/top_rated"),
     getAiringToday: () => api.get("tv/airing_today"),
     searchTv: term =>
       api.get("search/tv", {
