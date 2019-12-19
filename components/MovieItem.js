@@ -1,27 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { TouchableWithoutFeedback } from "react-native";
+import { withNavigation } from "react-navigation";
 import styled from "styled-components";
 import MoviePoster from "./MoviePoster";
 import MovieRating from "./MovieRating";
 import { GREY_COLOR } from "../constants/Colors";
 
 const Container = styled.View`
-    align-items : center;
-    margin-right : 20px;
+  align-items: center;
+  margin-right: 20px;
 `;
 
 const Title = styled.Text`
   color: white;
   font-size: ${props => (!props.big ? "12px" : "14px")};
-    /* 밑 title쪽에 props로 big을 줬는데, props가 big이 아니면 12, big이면 14 */
-
-  margin-vertical : 5px;
+  margin-vertical: 5px;
 `;
 
 const HContainer = styled.View`
   margin-bottom: 20px;
   flex-direction: row;
-  /* RN은 flexdirection 이 column 이니까 세로로 쌓이길 원하면 row로 바꿔줘야함 */
 `;
 
 const Column = styled.View`
@@ -41,40 +40,60 @@ const MovieItem = ({
   title,
   voteAvg,
   horizontal = false,
-  overview
-}) =>
-  horizontal ? (
-    <HContainer>
-      <MoviePoster path={posterPhoto} />
-      <Column>
-        <Title big={true}>{title}</Title>
+  overview,
+  isMovie = true,
+  navigation
+}) => (
+  <TouchableWithoutFeedback
+    onPress={() =>
+      navigation.navigate({
+        routeName: "Detail",
+        params: {
+          isMovie,
+          id,
+          posterPhoto,
+          backgroundPhoto: null,
+          title,
+          voteAvg,
+          overview
+        }
+      })
+    }
+  >
+    {horizontal ? (
+      <HContainer>
+        <MoviePoster path={posterPhoto} />
+        <Column>
+          <Title big={true}>{title}</Title>
+          <MovieRating votes={voteAvg} />
+          {overview ? (
+            <Overview>
+              {overview.length > 150
+                ? `${overview.substring(0, 147)}...`
+                : overview}
+            </Overview>
+          ) : null}
+        </Column>
+      </HContainer>
+    ) : (
+      <Container>
+        <MoviePoster path={posterPhoto} />
+        <Title>
+          {title.length > 15 ? `${title.substring(0, 12)}...` : title}
+        </Title>
         <MovieRating votes={voteAvg} />
-        {overview ? (
-          <Overview>
-            {overview.length > 150
-              ? `${overview.substring(0, 147)}...`
-              : overview}
-          </Overview>
-        ) : null}
-      </Column>
-    </HContainer>
-  ) : (
-    <Container>
-      <MoviePoster path={posterPhoto} />
-      <Title>
-        {title.length > 15 ? `${title.substring(0, 12)}...` : title}
-      </Title>
-      <MovieRating votes={voteAvg} />
-    </Container>
-  );
-
+      </Container>
+    )}
+  </TouchableWithoutFeedback>
+);
 
 MovieItem.propTypes = {
   id: PropTypes.number.isRequired,
   posterPhoto: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   voteAvg: PropTypes.number.isRequired,
-  overview: PropTypes.string
+  overview: PropTypes.string,
+  isMovie: PropTypes.bool
 };
 
-export default MovieItem;
+export default withNavigation(MovieItem);

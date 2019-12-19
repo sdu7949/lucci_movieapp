@@ -6,6 +6,7 @@ import Layout from "../constants/Layout";
 import MoviePoster from "./MoviePoster";
 import { TINT_COLOR, GREY_COLOR } from "../constants/Colors";
 import MovieRating from "./MovieRating";
+import { withNavigation } from "react-navigation";
 
 const Container = styled.View`
   flex: 1;
@@ -64,11 +65,13 @@ const BtnText = styled.Text`
 
 
 const MovieSlide = ({
+  id,
   posterPhoto,
   backgroundPhoto,
   title,
   voteAvg,
-  overview
+  overview,
+  navigation
 }) => (
   <Container>
     <BgImage source={{ uri: makePhotoUrl(backgroundPhoto) }} />
@@ -88,7 +91,22 @@ const MovieSlide = ({
               : overview}
           </Overview>
         ) : null}
-        <BtnContainer>
+        <BtnContainer
+          onPress={() =>
+            navigation.navigate({
+              routeName: "Detail",
+              params: {   //모든  props를 navigation으로 다 보낼 수 있음
+                isMovie: true,
+                id,
+                posterPhoto,
+                backgroundPhoto,
+                title,
+                voteAvg,
+                overview
+              }
+            })
+          }
+        >
           <BtnText>View details</BtnText>
         </BtnContainer>
       </Column>
@@ -105,4 +123,4 @@ MovieSlide.propTypes = {
   overview: PropTypes.string.isRequired
 };
 
-export default MovieSlide;
+export default withNavigation(MovieSlide);

@@ -21,6 +21,7 @@ loading ? (
           .filter(tv => tv.poster_path !== null)
           .map(tv => (
             <MovieItem
+            isMovie={false}
               key={tv.id}
               id={tv.id}
               posterPhoto={tv.poster_path}
@@ -36,6 +37,7 @@ loading ? (
           .filter(tv => tv.poster_path !== null)
           .map(tv => (
             <MovieItem
+            isMovie={false}
               key={tv.id}
               id={tv.id}
               posterPhoto={tv.poster_path}
@@ -47,11 +49,14 @@ loading ? (
     ) : null}
 
 {popular ? (
-        <Section title="Popular">
+        <Section title="Popular" horizontal={false}>
           {popular
             .filter(tv => tv.poster_path !== null)
             .map(tv => (
               <MovieItem
+              isMovie={false}
+              horizontal={true}
+              overview={tv.overview}
                 key={tv.id}
                 id={tv.id}
                 posterPhoto={tv.poster_path}
