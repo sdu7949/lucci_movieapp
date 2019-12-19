@@ -13,12 +13,15 @@ const Container = styled.View`
 const Title = styled.Text`
   color: white;
   font-size: ${props => (!props.big ? "12px" : "14px")};
+    /* 밑 title쪽에 props로 big을 줬는데, props가 big이 아니면 12, big이면 14 */
+
   margin-vertical : 5px;
 `;
 
 const HContainer = styled.View`
   margin-bottom: 20px;
   flex-direction: row;
+  /* RN은 flexdirection 이 column 이니까 세로로 쌓이길 원하면 row로 바꿔줘야함 */
 `;
 
 const Column = styled.View`

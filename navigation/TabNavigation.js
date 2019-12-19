@@ -48,6 +48,7 @@ const TabNavigation = createBottomTabNavigator(
           }
     },
     {
+      initialRouteName: "Search",  //search 작업하려고 맨 처음 뜨는 화면이 search인거지, 작업 끝나면 지우면 됨
         tabBarOptions : {
             showLabel : false, //아이콘 넣을 거라 레이블(글자) 를 꺼두는 거임
             style:{
