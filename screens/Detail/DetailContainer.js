@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import DetailPresenter from "./DetailPresenter";
+import { movies, tv } from "../../api";
 
 export default class extends React.Component {
 
@@ -15,7 +15,7 @@ export default class extends React.Component {
         const {
             navigation: {
                 state: {
-                    params: {isMovie, id, posterPhoto, backgroundPhoto, title, voteAvg, overview }
+                    params: { isMovie, id, posterPhoto, backgroundPhoto, title, voteAvg, overview }
                 }
             }
         } = props;
@@ -27,29 +27,63 @@ export default class extends React.Component {
             title,
             voteAvg,
             overview,
-            loading : true
+            loading: true
         };
     }
 
-    async componentDidMount(){
-        try{
-
-        }catch{
-
-        }finally{
-            this.setState({loading : false});
+    async componentDidMount() {
+        const { isMovie, id } = this.state;
+        let error, genres, overview, status, date, backgroundPhoto;
+        try {
+            if (isMovie) {
+                ({
+                    data: {
+                        genres,
+                        overview,
+                        status,
+                        release_date: date,
+                        backdrop_path: backgroundPhoto
+                    }
+                } = await movies.getMovie(id));
+            } else {
+                ({
+                    data: {
+                        genres,
+                        overview,
+                        status,
+                        first_air_date: date,
+                        title: name,
+                        backdrop_path: backgroundPhoto
+                    }
+                } = await tv.getShow(id));
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setState({
+                loading: false,
+                genres,
+                backgroundPhoto,
+                overview,
+                status,
+                date
+            });
         }
     }
 
     render() {
         const {
+            isMovie,
             id,
             posterPhoto,
             backgroundPhoto,
             title,
             voteAvg,
             overview,
-            loading
+            loading,
+            date,
+            status,
+            genres
         } = this.state;
         return (
             <DetailPresenter
@@ -59,7 +93,11 @@ export default class extends React.Component {
                 title={title}
                 voteAvg={voteAvg}
                 overview={overview}
-                loading = {loading}
+                loading={loading}
+                date={date}
+                status={status}
+                isMovie={isMovie}
+                genres={genres}
             />
         );
     }
